@@ -1,0 +1,29 @@
+body {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    padding: 10px;
+}
+
+code, pre {
+    margin: 0;
+}
+
+pre {
+	overflow-x: auto;
+}
+
+pre li span:last-child {
+	margin-right: 5px;
+}
+
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
+    list-style-type: decimal;
+}
+
+blockquote {
+    margin: 0;
+    border-left: solid 5px #98fb98;
+    background-color: #EEE;
+    padding: 20px 25px;
+}
