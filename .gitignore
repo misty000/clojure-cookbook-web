@@ -11,3 +11,5 @@ pom.xml
 .lein-env
 .idea
 *.iml
+
+nohup.out

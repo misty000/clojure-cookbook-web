@@ -14,35 +14,54 @@
 
 (def cookbook-root "cookbook")
 
-(defn render2 [^URL res]
+(defmulti render class)
+
+(defmethod render File [^File f]
+  (when (and f (.exists f))
+    (page/html5
+      [:head ;(page/include-css "/google-code-prettify/prettify.css")
+       (page/include-js
+         "/google-code-prettify/prettify.js"
+         "/google-code-prettify/lang-clj.js"
+         "/js/jquery-1.10.2.min.js"
+         "/js/main.js")
+       (page/include-css
+         "/google-code-prettify/desert.css"
+         "/css/screen.css")]
+      [:body (.renderFile asciidoctor f {})])))
+
+(defmethod render URL [^URL res]
   (let [^File f (when res (File. (.toURI res)))]
-    (when (and f (.exists f))
-      (page/html5
-        [:head ;(page/include-css "/google-code-prettify/prettify.css")
-         (page/include-js
-           "/google-code-prettify/prettify.js"
-           "/google-code-prettify/lang-clj.js"
-           "/js/jquery-1.10.2.min.js"
-           "/js/main.js")
-         (page/include-css
-           "/google-code-prettify/desert.css"
-           "/css/screen.css")]
-        [:body (.renderFile asciidoctor f {})]))))
+    (render f)))
+
+(defmethod render :default [x] nil)
+
+(defn render-not-found [uri]
+  (let [path (str cookbook-root uri)
+        res (io/resource path)
+        dir (File. (.toURI res))]
+    (when (.isDirectory dir)
+      (let [fs (filter #(and (.isFile %)
+                          (-> % .getName (.endsWith ".asciidoc")))
+                 (.listFiles dir))
+            f (first fs)]
+        (render f)))))
 
 (defroutes app-routes
   (GET "/" []
-    (render2 (io/resource (str cookbook-root "/clojure-cookbook.asciidoc"))))
+    (render (io/resource (str cookbook-root "/clojure-cookbook.asciidoc"))))
   (GET "/*/" {:keys [uri] :as req}
     (let [paths (str/split uri #"/")
           path (last paths)
           name (str path ".asciidoc")]
       (or
-        (render2 (io/resource (str cookbook-root uri name)))
+        (render (io/resource (str cookbook-root uri name)))
+        (render-not-found uri)
         (let [paths (drop-last paths)
               uri (str (str/join "/" paths) "/")]
           (resp/redirect uri)))))
   (GET "/*.asciidoc" {:keys [uri] :as req}
-    (render2 (io/resource (str cookbook-root uri))))
+    (render (io/resource (str cookbook-root uri))))
   (route/resources "/")
   (route/not-found "Not Found"))
 
