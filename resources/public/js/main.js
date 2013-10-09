@@ -4,7 +4,14 @@ String.prototype.replaceAll = function (s1, s2) {
 
 function dropLast(s) {
     var coll = s.split("/");
-    coll = coll.slice(0, coll.length - 1);
+    var len = coll.length;
+    var prelast = coll[len - 2];
+    var last = coll[len - 1].replace(".asciidoc", "");
+    if (last === prelast) {
+        coll[len - 1] = "";
+    } else {
+        coll[len - 1] = last;
+    }
     return coll.join("/");
 }
 
@@ -13,10 +20,9 @@ $(function () {
         var $item = $(item);
         var href = $item.attr("href");
         var text = $item.text();
-        console.log(dropLast(text));
         $item
             .text(dropLast(text))
-            .attr("href", dropLast(text) + "/");
+            .attr("href", dropLast(text));
     });
 
     var $pre = $("pre > code");
@@ -55,7 +61,7 @@ $(function () {
     pre = pre.slice(0, pre.length - 2);
     if (pre.length > 0) {
         pre = pre.join("/");
-		$("<span>|</span>").appendTo($nav);
+        $("<span>|</span>").appendTo($nav);
         $("<a>向上</a>").attr("href", pre + "/").appendTo($nav);
         $nav.prependTo("body");
         $nav.clone().appendTo("body");

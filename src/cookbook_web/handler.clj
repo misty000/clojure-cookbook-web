@@ -60,6 +60,9 @@
         (let [paths (drop-last paths)
               uri (str (str/join "/" paths) "/")]
           (resp/redirect uri)))))
+  (GET "/*" {:keys [uri] :as req}
+    (when-not (.contains uri ".")
+      (render (io/resource (str cookbook-root uri ".asciidoc")))))
   (GET "/*.asciidoc" {:keys [uri] :as req}
     (render (io/resource (str cookbook-root uri))))
   (route/resources "/")
