@@ -1,5 +1,6 @@
-[au="Mark Whelan"]
 === Executing a System Command
+[role="byline"]
+by Mark Whelan
 
 ==== Problem
 
@@ -69,7 +70,7 @@ you can wrap them using +with-sh-dir+.
 ;; -> {:exit 0, :out " 11G\t.\n", :err ""}
 ----
 
-Similarly, you can override enviroment variables for +sh+ with
+Similarly, you can override environment variables for +sh+ with
 the :env option and a map, or use +with-sh-env+ and a map to wrap a command
 or group of commands.
 
@@ -110,7 +111,7 @@ over Java. Add the +sh+ command to your repertoire, and you can rule
 the entire kingdom of your system from Clojure, firing off programs
 written in any language.
 
-To rule the world outside your system as well, see [[ch_network_io]].
+To rule the world outside your system as well, see <<ch_network_io>>.
 
 ==== See Also
 

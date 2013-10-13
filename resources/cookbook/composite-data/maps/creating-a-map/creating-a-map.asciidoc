@@ -1,5 +1,6 @@
-[au="Luke VanderHart"]
 === Creating a Map
+[role="byline"]
+by Luke VanderHart
 
 ==== Problem
 
@@ -95,5 +96,5 @@ very small.
 
 ==== See also
 
-* Creating a set (x-ref)
+* <<sec_composite_creating_sets>>
 * Comparators
