@@ -4,7 +4,7 @@
 
 [1-1]: https://github.com/clojure-cookbook/clojure-cookbook
 
-cookbook last update: 2013-10-13
+cookbook last update: 2013-10-23
 
 ## Prerequisites
 
